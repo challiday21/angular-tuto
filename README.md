@@ -33,20 +33,16 @@ the file index.html of the application :
 Structural directives
 ---------------------
 
-A structural directive is the equivalent of a class in Angular. There are many
-built-in directives, which take the form ng*, for example :
+A structural directive is the equivalent of a class in Angular. There are many built-in directives, which take the form ng*, for example :
 NgIf, NgForOf, NgSwitch.
 
-We include Angular structural directives by inserting the appropriate imports at 
-the head of the directive class for example :
+We include Angular structural directives by inserting the appropriate imports at the head of the directive class for example :
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
-To create a new structural directive "newStrDir", the following command is executed 
-on the command line :
+To create a new structural directive "newStrDir", the following command is executed on the command line :
 ng generate directive newStrDir.
 
-A structure directive can be embedded directly into HTML commands. In the following,
-a <div> is created for each product in products(.ts) using a for loop :
+A structure directive can be embedded directly into HTML commands. In the following, a <div> is created for each product in products(.ts) using a "for loop" :
 
 <div *ngFor="let product of products">
 
@@ -60,12 +56,9 @@ a <div> is created for each product in products(.ts) using a for loop :
 Interpolation syntax
 --------------------
 
-Certain properties can be directly displayed using Angular's interpolation syntax, as
-in the example above for the product name (product.name).
+Certain properties can be directly displayed using Angular's interpolation syntax, as in the example above for the product name (product.name).
 
-The value of the property can be inserted into the title of the component using the 
-property-binding syntax. In the following title, the product name prefixes the text 
-'details'
+The value of the property can be inserted into the title of the component using the property-binding syntax. In the following title, the product name prefixes the text 'details'
 
     <a [title]="product.name + ' details'">
       {{ product.name }}
@@ -88,9 +81,8 @@ Associate a URL path with a component
 
 To define the URL path of a component, indicate the path in the file
 app.module.ts
-For example, a component that describes a product in our example can be found by 
-adding the line
-      { path: 'products/:productId', component: ProductDetailsComponent },
+For example, a component that describes a product in our example can be found by adding the line
+{ path: 'products/:productId', component: ProductDetailsComponent },
 to app.module.ts and using the [routerLink] directive in the HTML file of the component
   <h3>
     <a 
@@ -99,19 +91,16 @@ to app.module.ts and using the [routerLink] directive in the HTML file of the co
       {{ product.name }}
     </a>
   </h3>
-The path has a fixed part "/products" and a variable part "product.id", which varies with
-the product ID.
+The path has a fixed part "/products" and a variable part "product.id", which varies with the product ID.
 
 
 Accessing component properties : an "Angular router"
 ----------------------------------------------------
 
-Information about a given component at a given path name can be accessed using the
-directive "Angular Router", by inserting the following import in the *.ts file :
+Information about a given component at a given path name can be accessed using the directive "Angular Router", by inserting the following import in the *.ts file :
 import { ActivatedRoute } from '@angular/router';
 
-To extract a given property of a component, its so-called current "route parameters" are
-retrieved in the method ngOnInit() using route.snapshot, as in the example below :
+To extract a given property of a component, its so-called current "route parameters" are retrieved in the method ngOnInit() using route.snapshot, as in the example below :
 
 export class ProductDetailsComponent implements OnInit {
 
@@ -131,8 +120,7 @@ export class ProductDetailsComponent implements OnInit {
 }
 
 In the file product-details.component.html of the structural directive 
-ProductDetailsComponent, a condition ngIf can be used to present given properties 
-if present :
+ProductDetailsComponent, a condition ngIf can be used to present given properties if present :
 
 <h2>Product Details</h2>
 
@@ -142,22 +130,19 @@ if present :
   <p>{{ product.description }}</p>
 </div>
 
-In addition, the pipe operator | is used to transform the property price here into a string
-called "currency".
+In addition, the pipe operator | is used to transform the property price here into a string called "currency".
 
 
 Implementing a new service -  Angular's dependency injection system
 -------------------------------------------------------------------
 
-A new structural directive can be inserted into another via Angular's dependency 
-injection system. 
+A new structural directive can be inserted into another via Angular's dependency injection system. 
 
 Firstly, an instance of a new structural directive is created. Consider the example 
 of displaying a shopping cart :
 ng generate service cart
 
-An interface "Product" is imported into the *.ts file of this new service to handle 
-the product data :
+An interface "Product" is imported into the *.ts file of this new service to handle the product data :
 import { Product } from './products';
 
 The product data are then stored in an array Product
@@ -166,8 +151,7 @@ export class CartService {
 ...
 }
 
-To add items to and get or clear items from a shopping cart, new methods are added 
-directly to the structural directive : 
+To add items to and get or clear items from a shopping cart, new methods are added directly to the structural directive : 
 
 export class CartService {
   items: Product[] = [];
