@@ -1,6 +1,11 @@
 README Angular Tutorial
 =======================
 
+This is a description of an Angular tutorial completed at
+https://angular.io/start/
+https://angular.io/start/start-routing
+https://angular.io/start/start-data .
+
 Applications are built in Angular by creating and using components.
 
 A component consists of three parts :
@@ -213,4 +218,8 @@ The following line is added to add.module.ts to ensure that the
 component can be found :
 { path: 'cart', component: CartComponent },
 
-
+To update a present version of the Checkout button to point to the
+new Cart component, replace the existing text in the html forwith
+<a routerLink="/cart" class="button fancy-button">
+  <i class="material-icons">shopping_cart</i>Checkout
+</a>
