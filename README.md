@@ -29,6 +29,10 @@ the file index.html of the application :
     </body>
 </html>
 
+
+Structural directives
+---------------------
+
 A structural directive is the equivalent of a class in Angular. There are many
 built-in directives, which take the form ng*, for example :
 NgIf, NgForOf, NgSwitch.
@@ -52,6 +56,10 @@ a <div> is created for each product in products(.ts) using a for loop :
 
 </div>
 
+
+Interpolation syntax
+--------------------
+
 Certain properties can be directly displayed using Angular's interpolation syntax, as
 in the example above for the product name (product.name).
 
@@ -63,6 +71,10 @@ property-binding syntax. In the following title, the product name prefixes the t
       {{ product.name }}
     </a>
 
+
+Conditions
+----------
+
 A condition can be expressed by an if ngIf directive. In the following, a <p> element
 is created and displyed only if a description property exists : 
 
@@ -71,217 +83,131 @@ is created and displyed only if a description property exists :
   </p>
 
 
-1/ Structural directives
-------------------------
+Associate a URL path with a component
+-------------------------------------
 
-ngFor :
-
-<h2>Products</h2>
-
-<div *ngFor="let product of products">
-</div>
-
-
-2/ Angular's interpolation syntax
----------------------------------
-
-<h2>Products</h2>
-
-<div *ngFor="let product of products">
-
+To define the URL path of a component, indicate the path in the file
+app.module.ts
+For example, a component that describes a product in our example can be found by 
+adding the line
+      { path: 'products/:productId', component: ProductDetailsComponent },
+to app.module.ts and using the [routerLink] directive in the HTML file of the component
   <h3>
-      {{ product.name }}
-  </h3>
-
-</div>
-
-
-3/ Property binding + lien <a></a>
-----------------------------------
-
-<h2>Products</h2>
-
-<div *ngFor="let product of products">
-
-  <h3>
-    <a [title]="product.name + ' details'">
+    <a 
+      [title]="product.name + ' details'"
+      [routerLink]="['/products', product.id]">
       {{ product.name }}
     </a>
   </h3>
+The path has a fixed part "/products" and a variable part "product.id", which varies with
+the product ID.
 
+
+Accessing component properties : an "Angular router"
+----------------------------------------------------
+
+Information about a given component at a given path name can be accessed using the
+directive "Angular Router", by inserting the following import in the *.ts file :
+import { ActivatedRoute } from '@angular/router';
+
+To extract a given property of a component, its so-called current "route parameters" are
+retrieved in the method ngOnInit() using route.snapshot, as in the example below :
+
+export class ProductDetailsComponent implements OnInit {
+
+  product: Product | undefined;
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+  	// First get the product id from the current route.
+  	const routeParams = this.route.snapshot.paramMap;
+  	const productIdFromRoute = Number(routeParams.get('productId'));
+
+  	// Find the product that correspond with the id provided in route.
+  	this.product = products.find(product => product.id === productIdFromRoute);
+}
+
+}
+
+In the file product-details.component.html of the structural directive 
+ProductDetailsComponent, a condition ngIf can be used to present given properties 
+if present :
+
+<h2>Product Details</h2>
+
+<div *ngIf="product">
+  <h3>{{ product.name }}</h3>
+  <h4>{{ product.price | currency }}</h4>
+  <p>{{ product.description }}</p>
 </div>
 
-
-4/ <p> element + *ngIf directive
---------------------------------
-
-<h2>Products</h2>
-
-<div *ngFor="let product of products">
-
-  <h3>
-    <a [title]="product.name + ' details'">
-      {{ product.name }}
-    </a>
-  </h3>
-
-  <p *ngIf="product.description">
-    Description: {{ product.description }}
-  </p>
-
-</div>
+In addition, the pipe operator | is used to transform the property price here into a string
+called "currency".
 
 
-5/ Event binding + sharing + button
------------------------------------
+Implementing a new service -  Angular's dependency injection system
+-------------------------------------------------------------------
 
-<h2>Products</h2>
+A new structural directive can be inserted into another via Angular's dependency 
+injection system. 
 
-<div *ngFor="let product of products">
+Firstly, an instance of a new structural directive is created. Consider the example 
+of displaying a shopping cart :
+ng generate service cart
 
-  <h3>
-    <a [title]="product.name + ' details'">
-      {{ product.name }}
-    </a>
-  </h3>
+An interface "Product" is imported into the *.ts file of this new service to handle 
+the product data :
+import { Product } from './products';
 
-  <p *ngIf="product.description">
-    Description: {{ product.description }}
-  </p>
+The product data are then stored in an array Product
+export class CartService {
+  items: Product[] = [];
+...
+}
 
-  <button type="button" (click)="share()">
-    Share
-  </button>
+To add items to and get or clear items from a shopping cart, new methods are added 
+directly to the structural directive : 
 
-</div>
-
-
-6/ New component => pass date to a new child component
-------------------------------------------------------
-Créer un nouveau Terminal (+), puis -> créer un nouveau component
-> ng generate component product-alerts
-=> The generator creates starter files for the three parts of the component:
-product-alerts.component.ts
-product-alerts.component.html
-product-alerts.component.css
-=>
-src/app/product-alerts/product-alerts.component.ts
-content_copy
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-product-alerts',
-  templateUrl: './product-alerts.component.html',
-  styleUrls: ['./product-alerts.component.css']
-})
-export class ProductAlertsComponent implements OnInit {
+export class CartService {
+  items: Product[] = [];
 
   constructor() { }
 
-  ngOnInit() {
+  addToCart(product: Product) {
+    this.items.push(product);
   }
 
-}
-
-The ProductAlertsComponent needs to emit an event when the user clicks Notify Me and 
-the ProductListComponent needs to respond to the event.
-
-In new components, the Angular Generator includes an empty constructor(), the OnInit 
-interface, and the ngOnInit() method. Since these steps don't use them, the following 
-code examples omit them for brevity.
-
-==========
-
-product-list.component.html :
-
-<h2>Products</h2>
-
-<div *ngFor="let product of products">
-
-  <h3>
-    <a [title]="product.name + ' details'">
-      {{ product.name }}
-    </a>
-  </h3>
-
-  <p *ngIf="product.description">
-    Description: {{ product.description }}
-  </p>
-
-  <button type="button" (click)="share()">
-    Share
-  </button>
-  
-  <app-product-alerts
-    [product]="product">
-  </app-product-alerts>
-
-</div>
-
-==========
-
-product-list.component.ts :
-
-import { Component } from '@angular/core';
-import { products } from '../products';
-
-@Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
-})
-
-export class ProductListComponent {
-
-  products = products;
-
-  share() {
-    window.alert('The product has been shared!');
+  getItems() {
+    return this.items;
   }
 
-  onNotify() {
-    window.alert('You will be notified when the product goes on sale');
+  clearCart() {
+    this.items = [];
+    return this.items;
   }
 }
 
-==========
+The structural directive of "CartService" can then be "injected" into the constructor
+of another structural directive "ProductDetailsComponent" :
 
-product-alert.component.html :
+export class ProductDetailsComponent implements OnInit {
 
-<p *ngIf="product && product.price > 700">
-    <button type="button">Notify Me</button>
-</p>
-
-<p *ngIf="product && product.price > 700"> </p>
-
-<button type="button" (click)="share()">
-    Share
-  </button>
-  
-<app-product-alerts
-    [product]="product" 
-    (notify)="onNotify()">
-</app-product-alerts>
-
-==========
-
-product-alert.component.ts :
-
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ProductListComponent } from '../product-list/product-list.component';
-import { Product } from '../products';
-
-@Component({
-  selector: 'app-product-alerts',
-  templateUrl: './product-alerts.component.html',
-  styleUrls: ['./product-alerts.component.css']
-})
-
-export class ProductAlertsComponent extends ProductListComponent {
-  @Input() product: Product | undefined;
-  @Output() notify = new EventEmitter();
+  constructor(
+    private route: ActivatedRoute,
+    private cartService: CartService
+  ) { }
 }
 
-==========
-==========
-==========
+The cart is then displayed by adding the method
+
+  addToCart(product: Product) {
+    this.cartService.addToCart(product);
+    window.alert('Your product has been added to the cart!');
+  }
+
+which calls the method addToCart() of the new structural directive.
+
+To add a button "Buy" to each product, the line
+  <button type="button" (click)="addToCart(product)">Buy</button>
+is added to the HTML of the
