@@ -138,8 +138,7 @@ Implementing a new service -  Angular's dependency injection system
 
 A new structural directive can be inserted into another via Angular's dependency injection system. 
 
-Firstly, an instance of a new structural directive is created. Consider the example 
-of displaying a shopping cart :
+Firstly, an instance of a new structural directive is created. Consider the example of displaying a shopping cart :
 ng generate service cart
 
 An interface "Product" is imported into the *.ts file of this new service to handle the product data :
@@ -172,8 +171,7 @@ export class CartService {
   }
 }
 
-The structural directive of "CartService" can then be "injected" into the constructor
-of another structural directive "ProductDetailsComponent" :
+The structural directive of "CartService" can then be "injected" into the constructor of another structural directive "ProductDetailsComponent" :
 
 export class ProductDetailsComponent implements OnInit {
 
@@ -194,4 +192,25 @@ which calls the method addToCart() of the new structural directive.
 
 To add a button "Buy" to each product, the line
   <button type="button" (click)="addToCart(product)">Buy</button>
-is added to the HTML of the
+is added to the HTML of ProductDetailsComponent.
+
+To visualise a cart, another structure directive Cart can be created :
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.css']
+})
+export class CartComponent {
+
+  constructor() { }
+
+}
+
+The following line is added to add.module.ts to ensure that the
+component can be found :
+{ path: 'cart', component: CartComponent },
+
+
