@@ -9,12 +9,11 @@ https://angular.io/start/start-data .
 Applications are built in Angular by creating and using components.
 
 A component consists of three parts :
-1/ a component class ;
-2/ an HTML template to help display the component ;
-3/ a component-specific style file.
+- a component class ;
+- an HTML template to help display the component ;
+- a component-specific style file.
 
-The superclass of all components is <app-root>, which is placed in
-the file index.html of the application :
+The superclass of all components is <app-root>, which is placed in the file index.html of the application :
 
 <html lang="en">
   <head>
