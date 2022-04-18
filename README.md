@@ -13,8 +13,9 @@ A component consists of three parts :
 - an HTML template to help display the component ;
 - a component-specific style file.
 
-The superclass of all components is '<app-root>', which is placed in the file 'index.html' of the application :
+The superclass of all components is `<app-root>`, which is placed in the file `index.html` of the application :
 
+<details open>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -31,13 +32,14 @@ The superclass of all components is '<app-root>', which is placed in the file 'i
      	<app-root></app-root>
     </body>
 </html>
+</details>
 
 
 Structural directives
 ---------------------
 
 A structural directive is the equivalent of a class in Angular. There are many built-in directives, which take the form ng*, for example :
-NgIf, NgForOf, NgSwitch.
+`*ngIf`, `*ngForOf`, and `*ngSwitch`.
 
 We include Angular structural directives by inserting the appropriate imports at the head of the directive class for example :
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
