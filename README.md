@@ -15,7 +15,7 @@ A component consists of three parts :
 
 The superclass of all components is `<app-root>`, which is placed in the file `index.html` of the application :
 
-`<html lang="en">
+<kbd><html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Angular Getting Started</title>
@@ -30,7 +30,7 @@ The superclass of all components is `<app-root>`, which is placed in the file `i
     <body>
      	<app-root></app-root>
     </body>
-</html>`
+</html></kbd>
 
 
 Structural directives
