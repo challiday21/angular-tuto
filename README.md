@@ -2,9 +2,9 @@ README Angular Tutorial
 =======================
 
 This is a description of an Angular tutorial completed at
-https://angular.io/start/
-https://angular.io/start/start-routing
-https://angular.io/start/start-data .
+- https://angular.io/start/
+- https://angular.io/start/start-routing
+- https://angular.io/start/start-data .
 
 Applications are built in Angular by creating and using components.
 
@@ -13,14 +13,13 @@ A component consists of three parts :
 - an HTML template to help display the component ;
 - a component-specific style file.
 
-The superclass of all components is <app-root>, which is placed in the file index.html of the application :
+The superclass of all components is '<app-root>', which is placed in the file 'index.html' of the application :
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Angular Getting Started</title>
     <base href="/" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link
